@@ -58,21 +58,6 @@
     name: "{{ php_packages }}"
     state: present
 
-- name: (Debian) Gather package facts
-  package_facts:
-    manager: apt
-
-- name: (Ubuntu 20.04) Set and sanitize PHP version facts
-  set_fact:
-    php_version: >-
-      {{ ansible_facts.packages['php'][0].version
-      | regex_replace('^.*:', '')
-      | regex_replace('\+.*$', '') }}
-    php_version_flat: '{{ php_version | replace(".", "") }}'
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version == "20.04"
-
 - name: (Debian) Set and sanitize PHP facts
   set_fact:
     php_config_ini_path: /etc/php/{{ php_version }}/fpm/php.ini
